@@ -35,7 +35,7 @@ grid on
 
 close all
 % shorten the trajectory
-newLen = 50;
+newLen = 30;
 dataX = dataX(1:newLen);
 dataY = dataY(1:newLen);
 
@@ -52,7 +52,7 @@ colormap(cmap2)
 for i = 1:newLen-1   
     % icol = interp1(wmap, cmap, wMat(i));
     % icol = cmap2(,:);
-    icol = [1-wMat(i) 0 wMat(i)]; % NOTE: update this to cmap2
+    icol = [wMat(i) 0 1-wMat(i)]; % NOTE: update this to cmap2
     plot(dataX(i:i+1), dataY(i:i+1), 'color', icol,...
         'LineWidth', 1, 'Marker', 'o', 'MarkerFaceColor', icol);
     % plot(dataX(i:i+1), dataY(i:i+1));
@@ -63,7 +63,7 @@ ylabel('y-coordinate (\mum)')
 grid on
 % clim([0, 1])
 cbar = colorbar;
-cbar.Label.String = 'w_n';
+cbar.Label.String = 'w_n (unobserved)';
 c.Label.FontSize = 12;
 cbar.Location = 'east'; % colorbar inside of plot
 % cbar.Location = 'manual';
@@ -72,7 +72,11 @@ cbar.Location = 'east'; % colorbar inside of plot
 
 %% Load and combine multiple figures
 
-f1 = openfig('figures/trajectory_visual_2025-04-15.fig');
+cmap = [0 0 1; 1 0 0];
+cimap = [0;1];
+cmap2 = interp1(cimap,cmap,linspace(0,1,1E3));
+
+f1 = openfig('figures/trajectory_visual_2025-05-26.fig');
 % f1.Position = [500 200 600 500];
 ax1 = gca;
 
@@ -92,8 +96,8 @@ ax1c.Layout.TileSpan = [2 2];
 % nexttile
 colormap(cmap2)
 cbar2 = colorbar;
-cbar2.Label.String = 'w_n';
-cbar2.Label.FontSize = 12;
+cbar2.Label.String = 'w_n (unobserved)';
+% cbar2.Label.FontSize = 12;
 cbar2.Location = 'east'; % colorbar inside of plot
 % cbar2.Location = 'layout'; % colorbar in its own tile
 % cbar2.Layout.Tile = 6;
@@ -157,11 +161,17 @@ tl = tiledlayout(3,2,'TileSpacing','loose','Padding','loose');
 ax1c = copyobj(ax1,tl);
 ax1c(1).Layout.Tile = 1;
 ax1c.Layout.TileSpan = [1 2];
+% colormap(cmap2)
+% cbar2 = colorbar;
+% cbar2.Label.String = 'w_n (unobserved)';
+% c.Label.FontSize = 12;
+% cbar2.Location = 'east'; % colorbar inside of plot
 
 for idx = 1:4
     ax2c = copyobj(ax2_all(idx),tl);
     ax2c(1).Layout.Tile = 2+idx;
 end
+
 % ax1c = copyobj(ax1,tl);
 % ax2c = copyobj(ax2,tl);
 % ax1c(1).Layout.Tile = 1;
