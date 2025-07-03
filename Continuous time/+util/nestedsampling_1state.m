@@ -1,7 +1,9 @@
-function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars, exPars, data, loglfun)
+function [deadPoints,thetaMLE,logZ] = ...
+    nestedsampling_1state(nLive, stopRatio, priorPars, exPars, data, loglfun)
+
     % 
-    % Perform the nested sampling algorithm. Compute Bayesian estimates, 
-    % evidence and posterior. 
+    % Perform the nested sampling algorithm in the special case of only 1
+    % parameter.
     % 
     % Input:
     % nLive     - number of live points to be used
@@ -36,11 +38,11 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
     j = 1; % iteration index
  
     % Sample live points uniformly in unit hypercube
-    uMat = rand(nLive,4); % (point index, parameter index) 
+    uMat = rand(nLive,1); % (point index, parameter index) 
     
     % Compute positions in real parameter space
-    posMat = zeros(nLive,4);
-    for k = 1:4
+    posMat = zeros(nLive,1);
+    for k = 1:1
         if strcmp(priorPars{k,1},'uniform')
             posMat(:,k) = unifinv(uMat(:,k),priorPars{k,2},priorPars{k,3});
         
@@ -55,21 +57,6 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
 
        u = uMat(i,:); 
        y = posMat(i,:);    
-       if y(2) > y(1)
-           y = [y(2),y(1),y(4),y(3)]; % enforce y(1)>y(2)
-           % ------- new code -------------
-            for k = 1:4
-                if strcmp(priorPars{k,1},'uniform')
-                    u(k) = unifcdf(y(k),priorPars{k,2},priorPars{k,3});
-                
-                elseif strcmp(priorPars(k,1),'lognormal')
-                    u(k) = logncdf(y(k),priorPars{k,2},priorPars{k,3});
-                end
-                % posMat(:,k) = unifinv(uMat(:,k),priorPars(k,1),priorPars(k,2));
-            end 
-           % --------- end of new code ------------- 
-           % u = [u(2),u(1),u(4),u(3)]; % enforce y(1)>y(2)
-       end
     
        livePoints(i).upos = u; % assign values to points
        livePoints(i).logL = loglfun(y, exPars, data); % compute and store log-likelihood
@@ -99,7 +86,7 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
         % --------------- end of debugging -----------------
         
         % Sample a new point 
-        [uposNew, logLnew, posNew] = util.drawlivepoint(livePoints, logLworst, exPars, data, priorPars, loglfun); % new point
+        [uposNew, logLnew, posNew] = util.drawlivepoint_1state(livePoints, logLworst, exPars, data, priorPars, loglfun); % new point
         
         % Store dead point
         deadPoints(j).pos = livePoints(ind_worst).pos;
