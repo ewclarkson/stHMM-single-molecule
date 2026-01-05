@@ -57,7 +57,6 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
        y = posMat(i,:);    
        if y(2) > y(1)
            y = [y(2),y(1),y(4),y(3)]; % enforce y(1)>y(2)
-           % ------- new code -------------
             for k = 1:4
                 if strcmp(priorPars{k,1},'uniform')
                     u(k) = unifcdf(y(k),priorPars{k,2},priorPars{k,3});
@@ -67,8 +66,6 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
                 end
                 % posMat(:,k) = unifinv(uMat(:,k),priorPars(k,1),priorPars(k,2));
             end 
-           % --------- end of new code ------------- 
-           % u = [u(2),u(1),u(4),u(3)]; % enforce y(1)>y(2)
        end
     
        livePoints(i).upos = u; % assign values to points
@@ -90,13 +87,6 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
             logWeight = logWeight+log(nLive)-log(nLive+1);
         end
         logZ = util.logsumexp2(logZ, logLworst+logWeight);
-
-        % --------------- debugging -----------------------
-        % if logninv(livePoints(ind_worst).upos(1),priorPars{1,2},priorPars{1,3}) ~= livePoints(ind_worst).pos(1) % debugging
-        % 
-        %     keyboard
-        % end
-        % --------------- end of debugging -----------------
         
         % Sample a new point 
         [uposNew, logLnew, posNew] = util.drawlivepoint(livePoints, logLworst, exPars, data, priorPars, loglfun); % new point
@@ -129,20 +119,13 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
     for i = 1:length(deadPoints) % do for every dead point
         
         deadPoints(i).postWt = exp(deadPoints(i).logWeight+...
-            deadPoints(i).logL-logZ);
-
-%         deadPoints(i).postWt = deadPoints(i).logWeight+...
-%             deadPoints(i).logL-logZ;
-          
+            deadPoints(i).logL-logZ);    
     end
     
     for i = 1:nLive % do for every live point left
         
         deadPoints(end+1).postWt = exp(logWeight+...
             livePoints(i).logL-logZ);
-
-%         deadPoints(end+1).postWt = logWeight+...
-%             livePoints(i).logL-logZ;
 
         deadPoints(end).pos = livePoints(i).pos;
         deadPoints(end).logWeight = logWeight;
@@ -153,4 +136,5 @@ function [deadPoints,thetaMLE,logZ] = nestedsampling(nLive, stopRatio, priorPars
     [~, ind_max]=max([livePoints.logL]);
     thetaMLE = livePoints(ind_max).upos; % in transformed space
 end
+
 
