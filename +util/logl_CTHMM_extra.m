@@ -49,9 +49,6 @@ function enslogL = logl_CTHMM_extra(paramArr, exPars, data)
        
         enslogL = -Inf; % return a log-likelihood of -Inf
     
-    % elseif k12*tau > 2 || k21*tau > 2
-    % 
-    %     enslogL = -Inf; % forbid very high rates
             
     else % continue with the algorithm
 
@@ -144,6 +141,7 @@ function enslogL = logl_CTHMM_extra(paramArr, exPars, data)
         end
     end 
 end
+
 
 
 
