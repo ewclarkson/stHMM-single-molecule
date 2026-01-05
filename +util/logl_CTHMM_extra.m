@@ -75,10 +75,6 @@ function enslogL = logl_CTHMM_extra(paramArr, exPars, data)
             L_switch_same_1 = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)))*...
                 tau.*exp(-tau*(k12*w+k21*(1-w)))*tau*k12*k21.*w.*...
                 (besseli(0,2*tau*sqrt(k12*k21*w.*(1-w))) - besseli(2,2*tau*sqrt(k12*k21.*w.*(1-w))));
-
-                                  % tau*1/(4*pi*tau*(w*D1+(1-w)*D2)).*exp(-delta.^2/(4*tau*(w*D1+(1-w)*D2)))*exp(-tau*(k12*w+k21*(1-w)))*...
-                                  % ((pi_1*k12*(1+tau*k21*w)+pi_2*k21*(1+tau*k12*(1-w)))*besseli(0,2*tau*sqrt(k12*k21*w.*(1-w)))-...
-                                  % (tau*k12*k21)*(pi_1*w+pi_2*(1-w))*besseli(2,2*tau*sqrt(k12*k21.*w.*(1-w))));
             
             % for 2 --> 2, with at least two switches
             L_switch_same_2 = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)))*...
@@ -88,9 +84,6 @@ function enslogL = logl_CTHMM_extra(paramArr, exPars, data)
             % for at least one switch. Common for 1 --> 2 and 2 --> 1, just add factors of k12 or k21 in the end
             L_switch_opp = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)))*...
             tau.*exp(-tau*(k12*w+k21*(1-w))).*besseli(0,2*tau*sqrt(k12*k21*w.*(1-w)));
-
-            % L_switch_opp = @(w,delta) tau*1/(4*pi*tau*(w*D1+(1-w)*D2)).*exp(-delta.^2/(4*tau*(w*D1+(1-w)*D2)))*...
-            %     exp(-tau*(k12*w+k21*(1-w)))*(pi_1*k12)*besseli(0,2*tau*sqrt(k12*k21*w.*(1-w)));
     
             logLstay_1 = -tau*k12-log(4*pi*D1*tau)-trackDisps.^2/(4*D1*tau); % for 1 --> 1
     
@@ -141,6 +134,7 @@ function enslogL = logl_CTHMM_extra(paramArr, exPars, data)
         end
     end 
 end
+
 
 
 
