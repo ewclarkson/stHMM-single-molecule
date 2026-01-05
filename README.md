@@ -1,0 +1,1 @@
+The program is an implementation of our sub-sampling time hidden Markov model, for analysing single-molecule trajectories with sub-temporal resolution. It makes use of the nested sampling algorithm which allows for model selection and parameter inference. Apart from accounting for sub-temporal state switches, we approximate the effects of localisation noise and motion blur.
