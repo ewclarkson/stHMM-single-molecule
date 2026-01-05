@@ -1,10 +1,5 @@
 function [nBins,thetaBayes,data,w] = NSaxuiliaryPlot(NSseq,logZest,nLive)
 
-    % 
-    % this function is almost identical to bayesianesetimate.m and they
-    % should therefore be combined into one
-    % 
-
     seqLen = length(NSseq); % length of sequence
     nBins = round(sqrt(seqLen)); % number of bins for later plotting
     
@@ -30,33 +25,4 @@ function [nBins,thetaBayes,data,w] = NSaxuiliaryPlot(NSseq,logZest,nLive)
     M2Bayes = [w*(data1.^2),w*(data2.^2),w*(data3.^2),w*(data4.^2)]; % 2nd moment
     errorBayes = sqrt(M2Bayes-thetaBayes.^2); % standard deviation of estimates
 
-
-    % Plot marginalised posterior distributions
-    % if toPlot
-    %     nBins = round(sqrt(seqLen)); % number of bins
-    % 
-    %     figure;
-    %     [xbar,binCounts] = utilB.bincounts(nBins, thetaBayes(1), errorBayes(1), data1, w);
-    %     bar(xbar,binCounts,1) % weighted histogram
-    %     xlabel('D_1')
-    %     ylabel('P(D_1)')
-    % 
-    %     figure;
-    %     [xbar,binCounts] = utilB.bincounts(nBins, thetaBayes(2), errorBayes(2), data2, w);
-    %     bar(xbar,binCounts,1) % weighted histogram
-    %     xlabel('D_2')
-    %     ylabel('P(D_2)')
-    % 
-    %     figure;
-    %     [xbar,binCounts] = utilB.bincounts(nBins, thetaBayes(3), errorBayes(3), data3, w);
-    %     bar(xbar,binCounts,1) % weighted histogram
-    %     xlabel('p_{12}')
-    %     ylabel('P(p_{12})')
-    % 
-    %     figure;
-    %     [xbar,binCounts] = utilB.bincounts(nBins, thetaBayes(4), errorBayes(4), data4, w);
-    %     bar(xbar,binCounts,1) % weighted histogram
-    %     xlabel('p_{21}')
-    %     ylabel('P(p_{21})')
-    % end
 end
