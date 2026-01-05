@@ -48,7 +48,6 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint_1state(livePoints, l
     for i = 1:nPoints % compute a value in kVec for every point
     
         kVec(i) = (pointArr(i,:)-mean_p)*inv_appC*(pointArr(i,:)-mean_p)';
-%         kVec(i) = (pointArr(i,:)-mean_p)*(app_C\((pointArr(i,:)-mean_p)'));
     end
     kScale = max(kVec); % pick the largest k
     kNew = kScale*1.06^2; % slightly enlarge the ellipsoid
@@ -57,9 +56,6 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint_1state(livePoints, l
     
     % Compute a transformation matrices from ball to ellipsoid
     [R,D] = eig(app_C); % matrix of eigenvectors and of eigenvalues
-%     [~,D,R] = eig(app_C); 
-%     R = R';
-%     T = sqrt(kNew)*R'*sqrt(D)*R; % transformation matrix from ball to ellipsoid
     T = sqrt(kNew)*R*sqrt(D)*R'; % transformation matrix from ball to ellipsoid
 
     % -- test correctness --
@@ -110,6 +106,7 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint_1state(livePoints, l
     uposNew = u;
     posNew = y; % output
 end
+
 
 
 
