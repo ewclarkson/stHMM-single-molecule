@@ -48,10 +48,6 @@ function enslogL = logl_DTHMM(paramArr, exPars, data)
     if D1 <= 0 || D2 <= 0 || D1 <= D2 || p12 < 0 || p12 >= 1 || p21 < 0 || p21 >= 1 % these inputs are not allowed (because they are unphysical)
         
         enslogL = -Inf; % return a log-likelihood of -Inf
-    
-    % elseif k12*tau > 2 || k21*tau > 2 % a very high mean number of transitions
-    % 
-    %     enslogL = -Inf; % ignore very high rates
         
     else % continue with the algorithm
 
@@ -108,5 +104,6 @@ function enslogL = logl_DTHMM(paramArr, exPars, data)
         end        
     end
 end
+
 
 
