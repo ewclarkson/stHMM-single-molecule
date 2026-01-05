@@ -116,20 +116,13 @@ function [deadPoints,thetaMLE,logZ] = ...
     for i = 1:length(deadPoints) % do for every dead point
         
         deadPoints(i).postWt = exp(deadPoints(i).logWeight+...
-            deadPoints(i).logL-logZ);
-
-%         deadPoints(i).postWt = deadPoints(i).logWeight+...
-%             deadPoints(i).logL-logZ;
-          
+            deadPoints(i).logL-logZ);     
     end
     
     for i = 1:nLive % do for every live point left
         
         deadPoints(end+1).postWt = exp(logWeight+...
             livePoints(i).logL-logZ);
-
-%         deadPoints(end+1).postWt = logWeight+...
-%             livePoints(i).logL-logZ;
 
         deadPoints(end).pos = livePoints(i).pos;
         deadPoints(end).logWeight = logWeight;
@@ -140,4 +133,5 @@ function [deadPoints,thetaMLE,logZ] = ...
     [~, ind_max]=max([livePoints.logL]);
     thetaMLE = livePoints(ind_max).upos; % in transformed space
 end
+
 
