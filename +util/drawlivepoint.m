@@ -91,7 +91,6 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint(livePoints, logLwors
             y = zeros(1,4);
     
             for idx = 1:4
-                % y(idx) = unifinv(u(idx),priorPars(idx,1),priorPars(idx,2));
                 if strcmp(priorPars{idx,1},'uniform')
                     y(idx) = unifinv(u(idx),priorPars{idx,2},priorPars{idx,3});
                 elseif strcmp(priorPars{idx,1},'lognormal')
@@ -101,7 +100,6 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint(livePoints, logLwors
 
             if y(2) > y(1)
                     y = [y(2),y(1),y(4),y(3)]; % enforce D1>D2
-                    % ------- new code -------------
                     for k = 1:4
                         if strcmp(priorPars{k,1},'uniform')
                             u(k) = unifcdf(y(k),priorPars{k,2},priorPars{k,3});
@@ -110,8 +108,6 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint(livePoints, logLwors
                             u(k) = logncdf(y(k),priorPars{k,2},priorPars{k,3});
                         end
                     end 
-                    % --------- end of new code ------------- 
-                    % u = [u(2),u(1),u(4),u(3)]; % enforce y(1)>y(2)
             end
     
             logLnew = loglfun(y, exPars, data); % likelihood of new point
@@ -141,24 +137,5 @@ end
 % hold on
 % scatter(yVec(:,1), yVec(:,2))
 
-% scatter(pointArr(:,3), pointArr(:,4))
-% hold on
-% scatter(yVec(:,3), yVec(:,4))
-
-% scatter(pointArr(:,1), pointArr(:,3))
-% hold on
-% scatter(yVec(:,1), yVec(:,3))
-
-% scatter(pointArr(:,1), pointArr(:,4))
-% hold on
-% scatter(yVec(:,1), yVec(:,4))
-
-% scatter(pointArr(:,2), pointArr(:,3))
-% hold on
-% scatter(yVec(:,2), yVec(:,3))
-
-% scatter(pointArr(:,2), pointArr(:,4))
-% hold on
-% scatter(yVec(:,2), yVec(:,4))
 
 
