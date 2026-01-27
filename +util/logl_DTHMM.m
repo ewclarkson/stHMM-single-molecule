@@ -64,8 +64,8 @@ function enslogL = logl_DTHMM(paramArr, exPars, data)
         log_pi2 = log(p12/(p12+p21)); % the fraction of steps that the particle is in state 2
 
         % logL_func = @(disp_j, D_i, deltaT) -log(4*pi*D_i*deltaT)-disp_j.^2/(4*D_i*deltaT); % the likelihood for every individual displacement
-        logL_func = @(disp_j, D_i, deltaT) -log(4*pi*D_i*deltaT*(1-2*Rmb)+2*sigmaE^2) - ...
-                                            disp_j.^2/(4*D_i*deltaT*(1-2*Rmb)+2*sigmaE^2); 
+        logL_func = @(disp_j, D_i, deltaT) -log(2*pi*(2*D_i*deltaT*(1-2*Rmb)+2*sigmaE^2)) - ...
+                                            disp_j.^2/(2*(2*D_i*deltaT*(1-2*Rmb)+2*sigmaE^2)); 
         % the likelihood for every individual displacement
     
         for i = 1:length(data) % do for every trajectory

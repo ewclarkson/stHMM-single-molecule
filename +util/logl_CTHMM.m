@@ -71,22 +71,22 @@ function enslogL = logl_CTHMM(paramArr, exPars, data)
                 % ----------- define functions for later computation -----------
         
             % for 1 --> 1, with at least two switches
-            L_switch_same_1 = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2))*...
+            L_switch_same_1 = @(w,delta) 1./(2*pi*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)).*exp(-delta.^2./(2*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)))*...
                 tau.*exp(-tau*(k12*w+k21*(1-w)))*tau*k12*k21.*w.*...
                 (besseli(0,2*tau*sqrt(k12*k21*w.*(1-w))) - besseli(2,2*tau*sqrt(k12*k21.*w.*(1-w))));
     % 
             % for 2 --> 2, with at least two switches
-            L_switch_same_2 = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2))*...
+            L_switch_same_2 = @(w,delta) 1./(2*pi*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)).*exp(-delta.^2./(2*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)))*...
                 tau.*exp(-tau*(k12*w+k21*(1-w)))*tau*k12*k21.*(1-w).*...
                 (besseli(0,2*tau*sqrt(k12*k21*w.*(1-w))) - besseli(2,2*tau*sqrt(k12*k21*w.*(1-w))));
     % 
             % for at least one switch. Common for 1--> 2 and 2 --> 1, just add factors of k12 or k21 in the end
-            L_switch_opp = @(w,delta) 1./(4*pi*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2).*exp(-delta.^2./(4*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2))*...
+            L_switch_opp = @(w,delta) 1./(2*pi*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)).*exp(-delta.^2./(2*(2*tau*(w*D1+(1-w)*D2)*(1-2*Rmb)+2*sigmaE^2)))*...
             tau.*exp(-tau*(k12*w+k21*(1-w))).*besseli(0,2*tau*sqrt(k12*k21*w.*(1-w)));
     
-            logLstay_1 = -tau*k12-log(4*pi*D1*tau*(1-2*Rmb)+2*sigmaE^2)-trackDisps.^2/(4*D1*tau*(1-2*Rmb)+2*sigmaE^2); % for 1 --> 1
+            logLstay_1 = -tau*k12-log(2*pi*(2*D1*tau*(1-2*Rmb)+2*sigmaE^2))-trackDisps.^2/(2*(2*D1*tau*(1-2*Rmb)+2*sigmaE^2)); % for 1 --> 1
     
-            logLstay_2 = -tau*k21-log(4*pi*D2*tau*(1-2*Rmb)+2*sigmaE^2)-trackDisps.^2/(4*D2*tau*(1-2*Rmb)+2*sigmaE^2); % for 2 --> 2
+            logLstay_2 = -tau*k21-log(2*pi*(2*D2*tau*(1-2*Rmb)+2*sigmaE^2))-trackDisps.^2/(2*(2*D2*tau*(1-2*Rmb)+2*sigmaE^2)); % for 2 --> 2
             
             epsilon_abs = 1e-10; % absolute tolerance for numerical integration
             epsilon_rel = 1e-6; % relative tolerance for numerical integration

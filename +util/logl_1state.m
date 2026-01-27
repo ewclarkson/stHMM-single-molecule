@@ -43,8 +43,8 @@ function enslogL = logl_1state(paramArr, exPars, data)
     else % continue with the likelihood
 
         enslogL = 0;
-        logL_func = @(disp, D, deltaT) -log(4*pi*D*deltaT*(1-2*Rmb)+2*sigmaE^2) - ...
-                                            disp.^2/(4*D*deltaT*(1-2*Rmb)+2*sigmaE^2);
+        logL_func = @(disp, D, deltaT) -log(2*pi*(2*D*deltaT*(1-2*Rmb)+2*sigmaE^2)) - ...
+                                            disp.^2/(2*(2*D*deltaT*(1-2*Rmb)+2*sigmaE^2));
         for i = 1:length(data) % do for every trajectory
     
             trackDisps = data{i}; % current trajectory

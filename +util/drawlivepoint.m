@@ -41,13 +41,14 @@ function [uposNew, logLnew, posNew, reject] = drawlivepoint(livePoints, logLwors
     
     % Estimate covariance matrix statistically
     app_C = cov(pointArr,1); % compute covariance matrix
-    inv_appC = inv(app_C); % inverse of covariance matrix
+    % inv_appC = inv(app_C); % inverse of covariance matrix
     
     % Find a bounding ellipsoid
     kVec = zeros(1,nPoints); % helps define an ellipsoid
     for i = 1:nPoints % compute a value in kVec for every point
     
-        kVec(i) = (pointArr(i,:)-mean_p)*inv_appC*(pointArr(i,:)-mean_p)';
+        % kVec(i) = (pointArr(i,:)-mean_p)*inv_appC*(pointArr(i,:)-mean_p)';
+        kVec(i) = (pointArr(i,:)-mean_p)*(app_C\((pointArr(i,:)-mean_p)'));
     end
     kScale = max(kVec); % pick the largest k
     kNew = kScale*1.06^2; % slightly enlarge the ellipsoid
